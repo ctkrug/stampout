@@ -5,7 +5,8 @@ import {
   daysBetween,
   nextCheckDate,
   getRecheckState,
-  isStale
+  isStale,
+  isValidISODate
 } from "../public/js/lib/scheduler.js";
 
 test("addDays advances across month and year boundaries", () => {
@@ -38,6 +39,19 @@ test("getRecheckState is overdue once the recheck date has passed", () => {
   assert.equal(getRecheckState("2026-01-01", 180, "2026-07-06"), "overdue");
 });
 
+test("getRecheckState treats an unparseable lastChecked as not-started", () => {
+  // A corrupt localStorage entry or a hand-crafted import must not crash the
+  // recheck math — it degrades to not-started instead of throwing.
+  assert.equal(getRecheckState("not-a-date", 180, "2026-07-06"), "not-started");
+  assert.equal(getRecheckState("", 180, "2026-07-06"), "not-started");
+});
+
+test("getRecheckState rejects a calendar-invalid date instead of rolling it forward", () => {
+  // 2026-02-30 does not exist; Date would silently roll it to March, so we
+  // treat it as unusable rather than compute a misleading recheck state.
+  assert.equal(getRecheckState("2026-02-30", 180, "2026-07-06"), "not-started");
+});
+
 test("isStale is false exactly at the threshold", () => {
   assert.equal(isStale("2026-04-07", "2026-07-06", 90), false);
 });
@@ -49,4 +63,20 @@ test("isStale is true once a dataset is older than the threshold", () => {
 test("isStale defaults to a 90-day threshold", () => {
   assert.equal(isStale("2026-01-01", "2026-07-06"), true);
   assert.equal(isStale("2026-06-01", "2026-07-06"), false);
+});
+
+test("isValidISODate accepts a well-formed calendar date", () => {
+  assert.equal(isValidISODate("2026-07-06"), true);
+  assert.equal(isValidISODate("2000-01-01"), true);
+});
+
+test("isValidISODate rejects wrong shapes, non-strings, and impossible dates", () => {
+  assert.equal(isValidISODate("not-a-date"), false);
+  assert.equal(isValidISODate("2026-7-6"), false); // unpadded
+  assert.equal(isValidISODate("2026/07/06"), false); // wrong separator
+  assert.equal(isValidISODate("2026-02-30"), false); // rolls forward
+  assert.equal(isValidISODate("2026-13-01"), false); // no 13th month
+  assert.equal(isValidISODate(""), false);
+  assert.equal(isValidISODate(null), false);
+  assert.equal(isValidISODate(20260706), false);
 });
