@@ -68,6 +68,16 @@ main {
   padding: 0 var(--space-3) var(--space-5);
 }
 
+.freshness-notice {
+  background: var(--surface-1);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: var(--space-1) var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
 .dossier {
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
