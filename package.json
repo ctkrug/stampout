@@ -1,6 +1,6 @@
 {
   "name": "optoutly",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A checklist-and-tracker for opting out of major US data brokers.",
   "private": true,
   "type": "module",
