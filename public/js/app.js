@@ -1,8 +1,15 @@
 import { loadStatuses, setBrokerStatus } from "./lib/storage.js";
 import { deriveAllBrokerViews, summarize, filterByCategory, sortByRecheckUrgency } from "./lib/brokers.js";
+import { isStale } from "./lib/scheduler.js";
 import { ALL_US_STATES } from "./lib/states.js";
 import { createSoundEngine } from "./lib/sound.js";
-import { renderSummary, renderCategoryTabs, renderBrokerCards, renderStateLaws } from "./render.js";
+import {
+  renderFreshnessNotice,
+  renderSummary,
+  renderCategoryTabs,
+  renderBrokerCards,
+  renderStateLaws
+} from "./render.js";
 
 function setUpMuteToggle(sound) {
   const button = document.getElementById("mute-toggle");
@@ -42,6 +49,7 @@ async function main() {
   setUpMuteToggle(sound);
 
   app.innerHTML = `
+    <div id="data-freshness"></div>
     <div class="dossier">
       <aside class="rail">
         <div id="summary"></div>
@@ -54,10 +62,17 @@ async function main() {
     <section id="state-laws"></section>
   `;
 
+  const freshnessEl = document.getElementById("data-freshness");
   const summaryEl = document.getElementById("summary");
   const tabsEl = document.getElementById("category-tabs");
   const gridEl = document.getElementById("broker-grid");
   const statesEl = document.getElementById("state-laws");
+
+  const todayISO = today();
+  const staleDates = [...new Set(
+    [brokerData.updated, stateLawData.updated].filter((updated) => isStale(updated, todayISO))
+  )];
+  renderFreshnessNotice(freshnessEl, staleDates);
 
   const categories = ["all", ...new Set(brokerData.brokers.map((b) => b.category))];
   let activeCategory = "all";

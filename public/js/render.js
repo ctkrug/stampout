@@ -15,6 +15,17 @@ const RECHECK_LABELS = {
   overdue: "Recheck overdue"
 };
 
+export function renderFreshnessNotice(container, staleDates) {
+  container.innerHTML = "";
+  if (staleDates.length === 0) {
+    container.className = "";
+    return;
+  }
+  container.className = "freshness-notice";
+  const dates = staleDates.join(", ");
+  container.textContent = `Data last verified on ${dates}. Some links or details may be out of date.`;
+}
+
 export function renderSummary(container, summary) {
   container.innerHTML = "";
   container.className = "summary";
