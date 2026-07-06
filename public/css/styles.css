@@ -134,32 +134,42 @@ button:focus-visible {
 
 .summary {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  justify-content: center;
-  margin: var(--space-3) 0;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
 .summary-stat {
   background: var(--surface-2);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: var(--space-2);
-  min-width: 110px;
-  text-align: center;
+  padding: var(--space-1) var(--space-2);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
 }
 
 .summary-count {
-  display: block;
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   color: var(--accent-support);
 }
 
 .summary-label {
-  display: block;
   color: var(--text-muted);
   font-size: 0.8rem;
+  text-align: right;
+}
+
+@media (max-width: 860px) {
+  .summary {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .summary-stat {
+    flex: 1 1 140px;
+  }
 }
 
 .category-tabs {
