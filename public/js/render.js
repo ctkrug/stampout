@@ -66,14 +66,14 @@ export function renderSummary(container, summary) {
 export function renderCategoryTabs(container, categories, activeCategory, onSelect) {
   container.innerHTML = "";
   container.className = "category-tabs";
-  container.setAttribute("role", "tablist");
+  container.setAttribute("role", "group");
+  container.setAttribute("aria-label", "Filter by category");
   for (const category of categories) {
     const tab = document.createElement("button");
     tab.type = "button";
     tab.className = "category-tab";
     tab.textContent = CATEGORY_LABELS[category] || category;
-    tab.setAttribute("role", "tab");
-    tab.setAttribute("aria-selected", String(category === activeCategory));
+    tab.setAttribute("aria-pressed", String(category === activeCategory));
     if (category === activeCategory) tab.classList.add("active");
     tab.addEventListener("click", () => onSelect(category));
     container.appendChild(tab);
