@@ -223,3 +223,8 @@ button:focus-visible {
 .state-law-details {
   margin-top: var(--space-2);
 }
+
+.state-law-uncovered {
+  color: var(--text-muted);
+  font-style: italic;
+}

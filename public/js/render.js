@@ -1,3 +1,5 @@
+import { resolveStateLaw } from "./lib/states.js";
+
 const CATEGORY_LABELS = {
   all: "All",
   "people-search": "People search",
@@ -112,7 +114,7 @@ function renderBrokerCard(view, { onMarkRequested, onMarkConfirmed }) {
   return card;
 }
 
-export function renderStateLaws(container, states) {
+export function renderStateLaws(container, allStates, enactedLaws) {
   container.innerHTML = "";
   container.className = "state-laws";
   const heading = document.createElement("h2");
@@ -125,7 +127,7 @@ export function renderStateLaws(container, states) {
   placeholder.value = "";
   placeholder.textContent = "Choose your state…";
   select.appendChild(placeholder);
-  for (const state of states) {
+  for (const state of allStates) {
     const option = document.createElement("option");
     option.value = state.code;
     option.textContent = state.name;
@@ -139,17 +141,24 @@ export function renderStateLaws(container, states) {
   container.appendChild(details);
 
   select.addEventListener("change", () => {
-    const state = states.find((s) => s.code === select.value);
     details.innerHTML = "";
-    if (!state) return;
+    if (!select.value) return;
+    const law = resolveStateLaw(enactedLaws, select.value);
+    if (!law) {
+      const notice = document.createElement("p");
+      notice.className = "state-law-uncovered";
+      notice.textContent = "Not yet covered: this state has no comprehensive privacy law in force yet.";
+      details.appendChild(notice);
+      return;
+    }
     const title = document.createElement("p");
-    title.innerHTML = `<strong>${state.law}</strong> &mdash; effective ${state.effective}`;
+    title.innerHTML = `<strong>${law.law}</strong> &mdash; effective ${law.effective}`;
     const rights = document.createElement("p");
-    rights.textContent = `Rights: ${state.rights.join(", ")}`;
+    rights.textContent = `Rights: ${law.rights.join(", ")}`;
     const notes = document.createElement("p");
-    notes.textContent = state.notes;
+    notes.textContent = law.notes;
     const link = document.createElement("a");
-    link.href = state.authorityUrl;
+    link.href = law.authorityUrl;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.textContent = "Enforcing authority";

@@ -1,5 +1,6 @@
 import { loadStatuses, setBrokerStatus } from "./lib/storage.js";
 import { deriveAllBrokerViews, summarize, filterByCategory, sortByRecheckUrgency } from "./lib/brokers.js";
+import { ALL_US_STATES } from "./lib/states.js";
 import { renderSummary, renderCategoryTabs, renderBrokerCards, renderStateLaws } from "./render.js";
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -56,7 +57,7 @@ async function main() {
   }
 
   rerender();
-  renderStateLaws(statesEl, stateLawData.states);
+  renderStateLaws(statesEl, ALL_US_STATES, stateLawData.states);
 }
 
 main().catch((error) => {
