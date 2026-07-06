@@ -68,6 +68,25 @@ main {
   padding: 0 var(--space-3) var(--space-5);
 }
 
+.onboarding {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+  max-width: 70ch;
+}
+
+.onboarding h2 {
+  margin-top: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.onboarding p {
+  color: var(--text-muted);
+}
+
 .freshness-notice {
   background: var(--surface-1);
   border-left: 3px solid var(--accent);
