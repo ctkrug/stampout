@@ -91,6 +91,27 @@ test("renderBrokerCards wires the action buttons to their handlers", () => {
   assert.deepEqual(calls, [["req", "spokeo"], ["conf", "spokeo"]]);
 });
 
+test("renderBrokerCards shows the human recheck label for each state", () => {
+  const cases = [
+    ["not-started", "Not started"],
+    ["ok", "On track"],
+    ["due-soon", "Recheck due soon"],
+    ["overdue", "Recheck overdue"]
+  ];
+  for (const [recheckState, label] of cases) {
+    const container = el();
+    renderBrokerCards(container, [{ ...VIEW, status: "confirmed", recheckState }], {});
+    assert.equal(container.querySelector(".broker-status-line").textContent, label);
+  }
+});
+
+test("renderCategoryTabs falls back to the raw name for an unknown category", () => {
+  const container = el();
+  renderCategoryTabs(container, ["all", "surprise-category"], "all", () => {});
+  const labels = [...container.querySelectorAll(".category-tab")].map((t) => t.textContent);
+  assert.deepEqual(labels, ["All", "surprise-category"]);
+});
+
 test("renderFreshnessNotice is empty with fresh data and shown when stale", () => {
   const container = el();
   renderFreshnessNotice(container, []);
