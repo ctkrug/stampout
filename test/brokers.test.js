@@ -94,6 +94,18 @@ test("selectDueToday excludes not-started and requested-only brokers", () => {
   assert.deepEqual(selectDueToday(views), []);
 });
 
+test("selectDueToday keeps both brokers when two share the same due date", () => {
+  // Same category + recheckDays + lastChecked -> identical due date; the tie
+  // branch of the secondary sort must keep both rather than drop one.
+  const statuses = {
+    spokeo: { status: "confirmed", lastChecked: "2026-01-01" },
+    mylife: { status: "confirmed", lastChecked: "2026-01-01" }
+  };
+  const views = deriveAllBrokerViews([SPOKEO, MYLIFE], statuses, "2026-07-06");
+  const due = selectDueToday(views);
+  assert.deepEqual(due.map((v) => v.id).sort(), ["mylife", "spokeo"]);
+});
+
 test("selectDueToday returns an empty array when nothing is due", () => {
   const statuses = { acxiom: { status: "confirmed", lastChecked: "2026-06-01" } };
   const views = deriveAllBrokerViews([ACXIOM], statuses, "2026-07-06");
