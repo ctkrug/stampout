@@ -97,6 +97,28 @@ test("parseImportedStatuses accepts an empty status map", () => {
   assert.deepEqual(parseImportedStatuses("{}"), { ok: true, statuses: {} });
 });
 
+test("parseImportedStatuses rejects a lastChecked string that isn't a real date", () => {
+  const result = parseImportedStatuses(
+    JSON.stringify({ spokeo: { status: "confirmed", lastChecked: "not-a-date" } })
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.error, /invalid/);
+});
+
+test("parseImportedStatuses rejects a calendar-impossible lastChecked date", () => {
+  const result = parseImportedStatuses(
+    JSON.stringify({ spokeo: { status: "confirmed", lastChecked: "2026-02-30" } })
+  );
+  assert.equal(result.ok, false);
+});
+
+test("parseImportedStatuses accepts a valid ISO lastChecked date", () => {
+  const result = parseImportedStatuses(
+    JSON.stringify({ spokeo: { status: "confirmed", lastChecked: "2026-01-15" } })
+  );
+  assert.equal(result.ok, true);
+});
+
 test("isOnboardingDismissed is false with no stored preference", () => {
   assert.equal(isOnboardingDismissed(fakeStore()), false);
 });
