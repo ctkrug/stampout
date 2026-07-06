@@ -32,3 +32,40 @@ export function setBrokerStatus(store, statuses, brokerId, status, lastChecked =
   saveStatuses(store, next);
   return next;
 }
+
+export function serializeStatuses(statuses) {
+  return JSON.stringify(statuses, null, 2);
+}
+
+const VALID_BROKER_STATUSES = new Set(["not-started", "requested", "confirmed"]);
+
+function isValidStatusEntry(entry) {
+  return (
+    entry !== null &&
+    typeof entry === "object" &&
+    VALID_BROKER_STATUSES.has(entry.status) &&
+    (entry.lastChecked === null || typeof entry.lastChecked === "string")
+  );
+}
+
+/**
+ * Parses and validates a previously-exported status map. Never throws:
+ * malformed JSON or a mismatched shape comes back as `{ ok: false, error }`
+ * so a caller can show an inline message instead of crashing.
+ */
+export function parseImportedStatuses(jsonText) {
+  let parsed;
+  try {
+    parsed = JSON.parse(jsonText);
+  } catch {
+    return { ok: false, error: "That file isn't valid JSON." };
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    return { ok: false, error: "Expected a JSON object mapping broker IDs to status." };
+  }
+  const isValid = Object.values(parsed).every(isValidStatusEntry);
+  if (!isValid) {
+    return { ok: false, error: "One or more entries have an invalid status or lastChecked value." };
+  }
+  return { ok: true, statuses: parsed };
+}
