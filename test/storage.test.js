@@ -31,6 +31,12 @@ test("loadStatuses recovers from corrupted JSON instead of throwing", () => {
   assert.deepEqual(loadStatuses(store), {});
 });
 
+test("loadStatuses ignores a non-object payload (array, string, null)", () => {
+  assert.deepEqual(loadStatuses(fakeStore({ [STORAGE_KEY]: "[1,2,3]" })), {});
+  assert.deepEqual(loadStatuses(fakeStore({ [STORAGE_KEY]: '"hi"' })), {});
+  assert.deepEqual(loadStatuses(fakeStore({ [STORAGE_KEY]: "null" })), {});
+});
+
 test("getBrokerStatus defaults to not-started for an unknown broker", () => {
   assert.deepEqual(getBrokerStatus({}, "spokeo"), {
     status: "not-started",
