@@ -3,13 +3,17 @@ import {
   saveStatuses,
   setBrokerStatus,
   serializeStatuses,
-  parseImportedStatuses
+  parseImportedStatuses,
+  isOnboardingDismissed,
+  dismissOnboarding,
+  shouldShowOnboarding
 } from "./lib/storage.js";
 import { deriveAllBrokerViews, summarize, filterByCategory, sortByRecheckUrgency } from "./lib/brokers.js";
 import { isStale } from "./lib/scheduler.js";
 import { ALL_US_STATES } from "./lib/states.js";
 import { createSoundEngine } from "./lib/sound.js";
 import {
+  renderOnboarding,
   renderFreshnessNotice,
   renderSummary,
   renderCategoryTabs,
@@ -55,6 +59,7 @@ async function main() {
   setUpMuteToggle(sound);
 
   app.innerHTML = `
+    <div id="onboarding"></div>
     <div id="data-freshness"></div>
     <div class="dossier">
       <aside class="rail">
@@ -74,6 +79,7 @@ async function main() {
     <section id="state-laws"></section>
   `;
 
+  const onboardingEl = document.getElementById("onboarding");
   const freshnessEl = document.getElementById("data-freshness");
   const summaryEl = document.getElementById("summary");
   const tabsEl = document.getElementById("category-tabs");
@@ -89,6 +95,12 @@ async function main() {
   const categories = ["all", ...new Set(brokerData.brokers.map((b) => b.category))];
   let activeCategory = "all";
   let statuses = loadStatuses(window.localStorage);
+
+  if (shouldShowOnboarding(statuses, isOnboardingDismissed(window.localStorage))) {
+    renderOnboarding(onboardingEl, () => dismissOnboarding(window.localStorage));
+  } else {
+    onboardingEl.remove();
+  }
 
   function rerender() {
     const views = deriveAllBrokerViews(brokerData.brokers, statuses, today());

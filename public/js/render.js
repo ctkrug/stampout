@@ -15,6 +15,26 @@ const RECHECK_LABELS = {
   overdue: "Recheck overdue"
 };
 
+export function renderOnboarding(container, onDismiss) {
+  container.innerHTML = "";
+  container.className = "onboarding";
+  const heading = document.createElement("h2");
+  heading.textContent = "How this case file works";
+  const body = document.createElement("p");
+  body.textContent =
+    "Open a broker's opt-out link, submit the request, then mark it “confirmed.” " +
+    "Optoutly stamps the card and schedules a recheck date, since some brokers quietly " +
+    "re-list your data after a while — the overdue ones will surface at the top.";
+  const dismissBtn = document.createElement("button");
+  dismissBtn.type = "button";
+  dismissBtn.textContent = "Got it";
+  dismissBtn.addEventListener("click", () => {
+    onDismiss();
+    container.remove();
+  });
+  container.append(heading, body, dismissBtn);
+}
+
 export function renderFreshnessNotice(container, staleDates) {
   container.innerHTML = "";
   if (staleDates.length === 0) {
