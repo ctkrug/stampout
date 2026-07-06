@@ -5,7 +5,12 @@
   "private": true,
   "type": "module",
   "license": "MIT",
-  "keywords": ["privacy", "data-brokers", "opt-out", "ccpa"],
+  "keywords": [
+    "privacy",
+    "data-brokers",
+    "opt-out",
+    "ccpa"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ctkrug/optoutly.git"
@@ -19,6 +24,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "eslint": "^9.39.4"
+    "eslint": "^9.39.4",
+    "linkedom": "^0.18.12"
   }
 }
