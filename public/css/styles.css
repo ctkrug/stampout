@@ -79,6 +79,7 @@ main {
 
 .main-panel {
   min-width: 0;
+  min-height: 60vh;
 }
 
 @media (max-width: 860px) {
@@ -268,6 +269,7 @@ button:focus-visible {
   margin-top: var(--space-5);
   border-top: 1px solid var(--surface-1);
   padding-top: var(--space-3);
+  max-width: 70ch;
 }
 
 .state-laws select {
