@@ -54,6 +54,21 @@ test("summarize counts by status and overdue rechecks", () => {
   });
 });
 
+test("summarize returns all-zero counts for an empty view list", () => {
+  assert.deepEqual(summarize([]), {
+    total: 0,
+    confirmed: 0,
+    requested: 0,
+    notStarted: 0,
+    overdue: 0
+  });
+});
+
+test("filterByCategory returns an empty list when no view matches", () => {
+  const views = deriveAllBrokerViews([SPOKEO, RADARIS], {}, "2026-07-06");
+  assert.deepEqual(filterByCategory(views, "credit-marketing"), []);
+});
+
 test("filterByCategory narrows to the requested category", () => {
   const views = deriveAllBrokerViews([SPOKEO, RADARIS, ACXIOM], {}, "2026-07-06");
   const filtered = filterByCategory(views, "marketing");
