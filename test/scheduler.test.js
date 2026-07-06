@@ -39,6 +39,24 @@ test("getRecheckState is overdue once the recheck date has passed", () => {
   assert.equal(getRecheckState("2026-01-01", 180, "2026-07-06"), "overdue");
 });
 
+test("getRecheckState is overdue exactly on the due date (boundary daysUntilDue === 0)", () => {
+  const todayISO = "2026-07-06";
+  const lastChecked = addDays(todayISO, -180); // due date lands exactly on today
+  assert.equal(getRecheckState(lastChecked, 180, todayISO), "overdue");
+});
+
+test("getRecheckState is due-soon exactly 14 days out (upper boundary)", () => {
+  const todayISO = "2026-07-06";
+  const lastChecked = addDays(addDays(todayISO, 14), -180); // due date is today + 14
+  assert.equal(getRecheckState(lastChecked, 180, todayISO), "due-soon");
+});
+
+test("getRecheckState is ok exactly 15 days out (just past due-soon)", () => {
+  const todayISO = "2026-07-06";
+  const lastChecked = addDays(addDays(todayISO, 15), -180); // due date is today + 15
+  assert.equal(getRecheckState(lastChecked, 180, todayISO), "ok");
+});
+
 test("getRecheckState treats an unparseable lastChecked as not-started", () => {
   // A corrupt localStorage entry or a hand-crafted import must not crash the
   // recheck math — it degrades to not-started instead of throwing.
