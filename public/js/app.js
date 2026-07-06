@@ -80,6 +80,16 @@ async function main() {
       onMarkConfirmed: (id) => {
         statuses = setBrokerStatus(window.localStorage, statuses, id, "confirmed", today());
         rerender();
+        sound.playThump();
+        const stamp = gridEl.querySelector(`[data-broker-id="${id}"] .stamp-mark`);
+        if (stamp) {
+          stamp.classList.add("stamp-mark--punch");
+          stamp.addEventListener(
+            "animationend",
+            () => stamp.classList.remove("stamp-mark--punch"),
+            { once: true }
+          );
+        }
       }
     });
   }
