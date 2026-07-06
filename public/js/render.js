@@ -67,6 +67,15 @@ export function renderBrokerCards(container, views, handlers) {
 function renderBrokerCard(view, { onMarkRequested, onMarkConfirmed }) {
   const card = document.createElement("article");
   card.className = `broker-card status-${view.status} recheck-${view.recheckState}`;
+  card.dataset.brokerId = view.id;
+
+  if (view.status === "confirmed") {
+    const stamp = document.createElement("div");
+    stamp.className = "stamp-mark";
+    stamp.textContent = "OPTED OUT";
+    stamp.setAttribute("aria-hidden", "true");
+    card.appendChild(stamp);
+  }
 
   const title = document.createElement("h3");
   title.className = "broker-name";
