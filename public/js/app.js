@@ -227,6 +227,6 @@ function setUpProgressIO({ getStatuses, onImport }) {
 
 main().catch((error) => {
   const app = document.getElementById("app");
-  app.innerHTML = `<p class="error-state">Something went wrong loading Optoutly: ${error.message}</p>`;
+  app.innerHTML = `<p class="error-state">Something went wrong loading Stampout: ${error.message}</p>`;
   console.error(error);
 });

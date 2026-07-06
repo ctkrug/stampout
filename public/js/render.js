@@ -23,7 +23,7 @@ export function renderOnboarding(container, onDismiss) {
   const body = document.createElement("p");
   body.textContent =
     "Open a broker's opt-out link, submit the request, then mark it “confirmed.” " +
-    "Optoutly stamps the card and schedules a recheck date, since some brokers quietly " +
+    "Stampout stamps the card and schedules a recheck date, since some brokers quietly " +
     "re-list your data after a while — the overdue ones will surface at the top.";
   const dismissBtn = document.createElement("button");
   dismissBtn.type = "button";
