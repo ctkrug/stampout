@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  parseISODate,
   addDays,
   daysBetween,
   nextCheckDate,
@@ -8,6 +9,13 @@ import {
   isStale,
   isValidISODate
 } from "../public/js/lib/scheduler.js";
+
+test("parseISODate and addDays throw on an unparseable date", () => {
+  // The low-level helpers throw by contract; higher-level callers guard with
+  // isValidISODate before reaching them (see getRecheckState).
+  assert.throws(() => parseISODate("not-a-date"), /Invalid date/);
+  assert.throws(() => addDays("garbage", 5), /Invalid date/);
+});
 
 test("addDays advances across month and year boundaries", () => {
   assert.equal(addDays("2026-01-31", 1), "2026-02-01");
