@@ -22,7 +22,17 @@ export default [
     files: ["test/**/*.js"],
     languageOptions: {
       globals: {
-        process: "readonly"
+        process: "readonly",
+        setTimeout: "readonly"
+      }
+    }
+  },
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        setTimeout: "readonly"
       }
     }
   },
