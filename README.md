@@ -24,14 +24,22 @@ profiles from public records and sell access to them. Most let you opt out, but:
 Optoutly turns "go opt out of your data everywhere" from an open-ended chore into a checklist
 with a schedule.
 
-## Features (planned for v1)
+## Features
 
-- **Broker checklist** — ~40 major brokers with name, category, and a direct opt-out link.
-- **Status tracking** — mark each broker as not started / requested / confirmed, stored locally.
+- **Broker checklist** — 40 major brokers with name, category, and a direct opt-out link.
+- **Status tracking** — mark each broker as not started / requested / confirmed, stored locally,
+  with a rubber-stamp animation and synth sound (mutable) on confirm.
 - **Re-check scheduler** — brokers that are known to re-list get a "check again by" date,
-  computed from when you last confirmed the opt-out.
-- **State privacy-law reference** — pick your state and see which comprehensive privacy law
-  applies (CCPA/CPRA, VCDPA, etc.) and what rights it grants.
+  computed from when you last confirmed the opt-out; overdue ones surface first.
+- **"What to do today"** — a dedicated view of just the overdue/due-soon brokers.
+- **Category filters** — narrow the checklist to one broker category at a time.
+- **State privacy-law reference** — pick any US state or DC and see which comprehensive privacy
+  law applies (CCPA/CPRA, VCDPA, etc.), what rights it grants, or an explicit note if that state
+  has no enacted law yet.
+- **Import/export progress** — move your opt-out status between browsers as a JSON file.
+- **Stale-data notice** — a visible warning if the underlying dataset hasn't been reviewed in
+  over 90 days.
+- **First-visit onboarding** — a short explainer, shown once, on how confirm/recheck works.
 - **Zero backend** — a static site; your data never leaves your browser.
 
 ## Stack
@@ -48,7 +56,7 @@ public/            the whole deployable site (self-contained, relative paths)
   index.html
   css/
   js/
-    lib/            pure logic: scheduler, storage, broker-status helpers
+    lib/            pure logic: scheduler, storage, broker-status, states, sound
   data/
     brokers.json
     state-laws.json
@@ -56,6 +64,7 @@ test/               node:test suites for public/js/lib
 docs/
   VISION.md         problem, audience, core idea, what "done" means
   DESIGN.md         visual direction and design tokens
+  ARCHITECTURE.md   module map, data flow, UI structure
   BACKLOG.md        epics/stories for the build
 ```
 
@@ -72,7 +81,8 @@ To preview the site, serve `public/` with any static file server, e.g.
 
 ## Status
 
-Early scaffold — see [`docs/BACKLOG.md`](docs/BACKLOG.md) for what's built vs. planned.
+Core checklist experience, dataset coverage, and usability/trust epics are built — see
+[`docs/BACKLOG.md`](docs/BACKLOG.md) for what's left (deployment/shareability polish).
 
 ## License
 
