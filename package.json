@@ -5,6 +5,12 @@
   "private": true,
   "type": "module",
   "license": "MIT",
+  "keywords": ["privacy", "data-brokers", "opt-out", "ccpa"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ctkrug/optoutly.git"
+  },
+  "homepage": "https://github.com/ctkrug/optoutly#readme",
   "engines": {
     "node": ">=18"
   },
