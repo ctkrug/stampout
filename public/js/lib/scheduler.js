@@ -40,3 +40,11 @@ export function getRecheckState(lastCheckedISO, recheckDays, todayISO) {
   if (daysUntilDue <= 14) return "due-soon";
   return "ok";
 }
+
+/**
+ * Whether a dataset's `updated` timestamp is old enough that the UI should
+ * warn a visitor before they rely on links that may no longer be current.
+ */
+export function isStale(updatedISO, todayISO, thresholdDays = 90) {
+  return daysBetween(updatedISO, todayISO) > thresholdDays;
+}
