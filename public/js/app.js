@@ -54,6 +54,12 @@ async function main() {
       <aside class="rail">
         <div id="summary"></div>
         <div id="category-tabs"></div>
+        <div class="progress-io">
+          <button id="export-btn" type="button">Export progress</button>
+          <label class="import-label" for="import-input">Import progress</label>
+          <input id="import-input" type="file" accept="application/json" class="visually-hidden" />
+          <p id="import-status" class="import-status" aria-live="polite"></p>
+        </div>
       </aside>
       <div class="main-panel">
         <div id="broker-grid"></div>
