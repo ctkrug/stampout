@@ -1,5 +1,5 @@
 import { getBrokerStatus } from "./storage.js";
-import { getRecheckState } from "./scheduler.js";
+import { getRecheckState, nextCheckDate } from "./scheduler.js";
 
 const RECHECK_RANK = { overdue: 0, "due-soon": 1, ok: 2, "not-started": 3 };
 
@@ -44,4 +44,21 @@ export function sortByRecheckUrgency(views) {
   return [...views].sort(
     (a, b) => RECHECK_RANK[a.recheckState] - RECHECK_RANK[b.recheckState]
   );
+}
+
+/**
+ * The "what to do today" view: only brokers that are overdue or due soon,
+ * most-urgent first (overdue before due-soon, and within a bucket the one
+ * whose recheck date is furthest in the past first).
+ */
+export function selectDueToday(views) {
+  return views
+    .filter((view) => view.recheckState === "overdue" || view.recheckState === "due-soon")
+    .sort((a, b) => {
+      const rankDiff = RECHECK_RANK[a.recheckState] - RECHECK_RANK[b.recheckState];
+      if (rankDiff !== 0) return rankDiff;
+      const aDue = nextCheckDate(a.lastChecked, a.recheckDays);
+      const bDue = nextCheckDate(b.lastChecked, b.recheckDays);
+      return aDue < bDue ? -1 : aDue > bDue ? 1 : 0;
+    });
 }
