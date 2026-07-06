@@ -24,7 +24,11 @@ export function saveStatuses(store, statuses) {
 }
 
 export function getBrokerStatus(statuses, brokerId) {
-  return statuses[brokerId] || { status: "not-started", lastChecked: null };
+  const entry = statuses[brokerId];
+  if (!entry || typeof entry !== "object" || typeof entry.status !== "string") {
+    return { status: "not-started", lastChecked: null };
+  }
+  return entry;
 }
 
 export function setBrokerStatus(store, statuses, brokerId, status, lastChecked = null) {
