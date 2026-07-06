@@ -2,12 +2,16 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   STORAGE_KEY,
+  ONBOARDING_STORAGE_KEY,
   loadStatuses,
   saveStatuses,
   getBrokerStatus,
   setBrokerStatus,
   serializeStatuses,
-  parseImportedStatuses
+  parseImportedStatuses,
+  isOnboardingDismissed,
+  dismissOnboarding,
+  shouldShowOnboarding
 } from "../public/js/lib/storage.js";
 
 function fakeStore(initial = {}) {
@@ -91,4 +95,27 @@ test("parseImportedStatuses rejects a non-string, non-null lastChecked", () => {
 
 test("parseImportedStatuses accepts an empty status map", () => {
   assert.deepEqual(parseImportedStatuses("{}"), { ok: true, statuses: {} });
+});
+
+test("isOnboardingDismissed is false with no stored preference", () => {
+  assert.equal(isOnboardingDismissed(fakeStore()), false);
+});
+
+test("dismissOnboarding persists the dismissal", () => {
+  const store = fakeStore();
+  dismissOnboarding(store);
+  assert.equal(store.getItem(ONBOARDING_STORAGE_KEY), "true");
+  assert.equal(isOnboardingDismissed(store), true);
+});
+
+test("shouldShowOnboarding is true with no statuses and no dismissal", () => {
+  assert.equal(shouldShowOnboarding({}, false), true);
+});
+
+test("shouldShowOnboarding is false once any broker has a status", () => {
+  assert.equal(shouldShowOnboarding({ spokeo: { status: "requested", lastChecked: null } }, false), false);
+});
+
+test("shouldShowOnboarding is false once dismissed, even with no statuses", () => {
+  assert.equal(shouldShowOnboarding({}, true), false);
 });
