@@ -44,6 +44,19 @@ test("getBrokerStatus defaults to not-started for an unknown broker", () => {
   });
 });
 
+test("getBrokerStatus falls back to default for a corrupt non-object entry", () => {
+  // A hand-edited localStorage value could store a scalar where an object is
+  // expected; the reader must degrade to not-started, not surface undefined.
+  assert.deepEqual(getBrokerStatus({ spokeo: "confirmed" }, "spokeo"), {
+    status: "not-started",
+    lastChecked: null
+  });
+  assert.deepEqual(getBrokerStatus({ spokeo: { lastChecked: "2026-01-01" } }, "spokeo"), {
+    status: "not-started",
+    lastChecked: null
+  });
+});
+
 test("setBrokerStatus persists and returns the updated map", () => {
   const store = fakeStore();
   const next = setBrokerStatus(store, {}, "spokeo", "confirmed", "2026-07-01");
