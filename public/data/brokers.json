@@ -298,6 +298,69 @@
       "optOutUrl": "https://www.cocofinder.com/opt-out",
       "recheckDays": 180,
       "notes": "Removal form requires the profile link."
+    },
+    {
+      "id": "anywho",
+      "name": "AnyWho",
+      "category": "people-search",
+      "website": "https://www.anywho.com",
+      "optOutUrl": "https://www.anywho.com/optout",
+      "recheckDays": 180,
+      "notes": "Reverse phone/address lookup site with a dedicated self-service opt-out form."
+    },
+    {
+      "id": "searchquarry",
+      "name": "SearchQuarry",
+      "category": "background-check",
+      "website": "https://www.searchquarry.com",
+      "optOutUrl": "https://www.searchquarry.com/optout/",
+      "recheckDays": 180,
+      "notes": "Public-records background-check site; opt-out form requires locating your record first."
+    },
+    {
+      "id": "idstrong",
+      "name": "IDStrong",
+      "category": "background-check",
+      "website": "https://www.idstrong.com",
+      "optOutUrl": "https://www.idstrong.com/opt-out/",
+      "recheckDays": 180,
+      "notes": "Identity/background lookup site; also sells its own monitoring subscription."
+    },
+    {
+      "id": "data-axle",
+      "name": "Data Axle (formerly Infogroup)",
+      "category": "marketing",
+      "website": "https://www.data-axle.com",
+      "optOutUrl": "https://www.data-axle.com/about-us/privacy-policy/",
+      "recheckDays": 365,
+      "notes": "Major B2B/B2C marketing-data aggregator; opt-out is via the privacy-policy request process."
+    },
+    {
+      "id": "v12data",
+      "name": "V12 Data",
+      "category": "marketing",
+      "website": "https://www.v12data.com",
+      "optOutUrl": "https://www.v12data.com/privacy-policy/",
+      "recheckDays": 365,
+      "notes": "Marketing-data and audience-targeting broker; opt-out is via the privacy-policy request process."
+    },
+    {
+      "id": "usa-people-search",
+      "name": "USA People Search",
+      "category": "people-search",
+      "website": "https://www.usa-people-search.com",
+      "optOutUrl": "https://www.usa-people-search.com/manage/",
+      "recheckDays": 180,
+      "notes": "Part of the same lookup-site family as several other entries in this list."
+    },
+    {
+      "id": "peoplelookup",
+      "name": "PeopleLookup",
+      "category": "people-search",
+      "website": "https://www.peoplelookup.com",
+      "optOutUrl": "https://www.peoplelookup.com/optout/",
+      "recheckDays": 180,
+      "notes": "Owned by PeopleConnect, the same company behind Whitepages, USSearch, and TruthFinder."
     }
   ]
 }
