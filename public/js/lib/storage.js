@@ -1,3 +1,5 @@
+import { isValidISODate } from "./scheduler.js";
+
 export const STORAGE_KEY = "optoutly:v1:status";
 export const ONBOARDING_STORAGE_KEY = "optoutly:v1:onboarding-dismissed";
 
@@ -45,7 +47,7 @@ function isValidStatusEntry(entry) {
     entry !== null &&
     typeof entry === "object" &&
     VALID_BROKER_STATUSES.has(entry.status) &&
-    (entry.lastChecked === null || typeof entry.lastChecked === "string")
+    (entry.lastChecked === null || isValidISODate(entry.lastChecked))
   );
 }
 
