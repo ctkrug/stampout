@@ -46,7 +46,9 @@ with a schedule.
 
 - Vanilla JavaScript (ES modules), no framework, no bundler.
 - A static JSON dataset (`public/data/`) for brokers and state privacy laws.
-- `node:test` for unit tests on the pure logic (scheduling, storage, derived status).
+- `node:test` for the suite: unit tests on the pure logic (scheduling, storage, derived status),
+  property-based invariants for the date math, a data-contract check on the shipped JSON, and DOM
+  integration tests for the render layer (via the test-only `linkedom`).
 - ESLint for linting.
 
 ## Project layout
@@ -60,7 +62,8 @@ public/            the whole deployable site (self-contained, relative paths)
   data/
     brokers.json
     state-laws.json
-test/               node:test suites for public/js/lib
+test/               node:test suites: pure logic, date-math properties, data
+                    contract, and DOM render integration
 docs/
   VISION.md         problem, audience, core idea, what "done" means
   DESIGN.md         visual direction and design tokens
