@@ -184,12 +184,12 @@
     },
     {
       "id": "corelogic",
-      "name": "CoreLogic",
+      "name": "Cotality (formerly CoreLogic)",
       "category": "background-check",
-      "website": "https://www.corelogic.com",
-      "optOutUrl": "https://www.corelogic.com/privacy-center/",
+      "website": "https://www.cotality.com",
+      "optOutUrl": "https://www.cotality.com/legal/notice-at-collection-and-u-s-state-supplemental-privacy-notice",
       "recheckDays": 365,
-      "notes": "Property and tenant-screening data broker."
+      "notes": "Property and tenant-screening data broker; rebranded from CoreLogic to Cotality in 2025."
     },
     {
       "id": "innovis",
@@ -214,7 +214,7 @@
       "name": "Equifax (marketing lists)",
       "category": "credit-marketing",
       "website": "https://www.equifax.com",
-      "optOutUrl": "https://www.equifax.com/personal/data-breach/opt-out-of-marketing/",
+      "optOutUrl": "https://www.equifax.com/privacy/",
       "recheckDays": 365,
       "notes": "Opts out of prescreened offer lists, not your core credit file."
     },
@@ -277,7 +277,7 @@
       "name": "InfoTracer",
       "category": "background-check",
       "website": "https://infotracer.com",
-      "optOutUrl": "https://infotracer.com/opt-out/",
+      "optOutUrl": "https://infotracer.com/optout/",
       "recheckDays": 180,
       "notes": "Removal is per-record; multiple listings may need separate requests."
     },
