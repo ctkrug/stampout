@@ -21,9 +21,15 @@ async function main() {
   ]);
 
   app.innerHTML = `
-    <div id="summary"></div>
-    <div id="category-tabs"></div>
-    <div id="broker-grid"></div>
+    <div class="dossier">
+      <aside class="rail">
+        <div id="summary"></div>
+        <div id="category-tabs"></div>
+      </aside>
+      <div class="main-panel">
+        <div id="broker-grid"></div>
+      </div>
+    </div>
     <section id="state-laws"></section>
   `;
 
