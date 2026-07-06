@@ -8,7 +8,13 @@ import {
   dismissOnboarding,
   shouldShowOnboarding
 } from "./lib/storage.js";
-import { deriveAllBrokerViews, summarize, filterByCategory, sortByRecheckUrgency } from "./lib/brokers.js";
+import {
+  deriveAllBrokerViews,
+  summarize,
+  filterByCategory,
+  sortByRecheckUrgency,
+  selectDueToday
+} from "./lib/brokers.js";
 import { isStale } from "./lib/scheduler.js";
 import { ALL_US_STATES } from "./lib/states.js";
 import { createSoundEngine } from "./lib/sound.js";
@@ -73,6 +79,10 @@ async function main() {
         </div>
       </aside>
       <div class="main-panel">
+        <section class="today-view" aria-labelledby="today-view-heading">
+          <h2 id="today-view-heading">What to do today</h2>
+          <div id="today-grid"></div>
+        </section>
         <div id="broker-grid"></div>
       </div>
     </div>
@@ -83,6 +93,7 @@ async function main() {
   const freshnessEl = document.getElementById("data-freshness");
   const summaryEl = document.getElementById("summary");
   const tabsEl = document.getElementById("category-tabs");
+  const todayGridEl = document.getElementById("today-grid");
   const gridEl = document.getElementById("broker-grid");
   const statesEl = document.getElementById("state-laws");
 
@@ -110,8 +121,7 @@ async function main() {
       activeCategory = category;
       rerender();
     });
-    const filtered = sortByRecheckUrgency(filterByCategory(views, activeCategory));
-    renderBrokerCards(gridEl, filtered, {
+    const handlers = {
       onMarkRequested: (id) => {
         statuses = setBrokerStatus(window.localStorage, statuses, id, "requested", null);
         rerender();
@@ -120,8 +130,7 @@ async function main() {
         statuses = setBrokerStatus(window.localStorage, statuses, id, "confirmed", today());
         rerender();
         sound.playThump();
-        const stamp = gridEl.querySelector(`[data-broker-id="${id}"] .stamp-mark`);
-        if (stamp) {
+        for (const stamp of app.querySelectorAll(`[data-broker-id="${id}"] .stamp-mark`)) {
           stamp.classList.add("stamp-mark--punch");
           stamp.addEventListener(
             "animationend",
@@ -130,7 +139,17 @@ async function main() {
           );
         }
       }
-    });
+    };
+
+    renderBrokerCards(
+      todayGridEl,
+      selectDueToday(views),
+      handlers,
+      "Nothing overdue or due soon — you're all caught up."
+    );
+
+    const filtered = sortByRecheckUrgency(filterByCategory(views, activeCategory));
+    renderBrokerCards(gridEl, filtered, handlers);
   }
 
   setUpProgressIO({
