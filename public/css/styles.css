@@ -211,6 +211,8 @@ main {
 
 @media (max-width: 860px) {
   .dossier {
+    /* minmax(0, 1fr), not a bare 1fr: the `auto` minimum of 1fr lets the
+       main panel refuse to shrink, blowing the card grid past the viewport. */
     grid-template-columns: minmax(0, 1fr);
   }
 
