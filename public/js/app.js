@@ -67,6 +67,7 @@ async function main() {
     const views = deriveAllBrokerViews(brokerData.brokers, statuses, today());
     renderSummary(summaryEl, summarize(views));
     renderCategoryTabs(tabsEl, categories, activeCategory, (category) => {
+      if (category !== activeCategory) sound.playTick();
       activeCategory = category;
       rerender();
     });
