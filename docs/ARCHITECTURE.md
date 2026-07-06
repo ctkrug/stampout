@@ -28,7 +28,7 @@ side effect — `store`, `AudioContextClass` — as an injected argument) and fu
 
 | File | Responsibility |
 |---|---|
-| `lib/scheduler.js` | Pure date math: `addDays`, `daysBetween`, `nextCheckDate`, `getRecheckState` (not-started / ok / due-soon / overdue), `isStale` (dataset-freshness threshold). |
+| `lib/scheduler.js` | Pure date math: `addDays`, `daysBetween`, `nextCheckDate`, `getRecheckState` (not-started / ok / due-soon / overdue), `isStale` (dataset-freshness threshold), and `isValidISODate` (a real `YYYY-MM-DD` calendar date, used to reject corrupt stored/imported dates before the math runs). |
 | `lib/storage.js` | `localStorage`-backed status persistence (`loadStatuses`/`saveStatuses`/`setBrokerStatus`), import/export serialization (`serializeStatuses`/`parseImportedStatuses`), and onboarding-dismissal persistence. All functions take an explicit `store` argument (anything with `getItem`/`setItem`) instead of reading a global, so tests pass in an in-memory fake. |
 | `lib/brokers.js` | Derives the per-broker view the UI renders (`deriveBrokerView`/`deriveAllBrokerViews` — merges a dataset entry with its stored status and computed `recheckState`), plus `summarize`, `filterByCategory`, `sortByRecheckUrgency`, and `selectDueToday` (the "what to do today" view). |
 | `lib/states.js` | Static list of all 50 states + DC (`ALL_US_STATES`) and `resolveStateLaw` to look up a state's enacted-law entry (or `null` if not yet covered). |
